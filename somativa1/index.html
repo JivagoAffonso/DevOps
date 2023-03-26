@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Somativa 1 - DevOps</title>
+</head>
+<body>
+	<h1>SOMATIVA 1 - DevOps - Exemplo de CRUD em HTML e JavaScript</h1>
+
+	<!-- Tabela para exibir os registros -->
+	<table>
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>E-mail</th>
+				<th>Ações</th>
+			</tr>
+		</thead>
+		<tbody id="table-body">
+		</tbody>
+	</table>
+
+	<!-- Botão para adicionar registro -->
+	<button onclick="openModal()">Adicionar registro</button>
+
+	<!-- Modal para adicionar ou editar registro -->
+	<div id="modal" style="display: none;">
+		<form onsubmit="return addOrUpdate()">
+			<input type="hidden" id="modal-index">
+			<label for="modal-nome">Nome:</label>
+			<input type="text" id="modal-nome" required>
+			<label for="modal-email">E-mail:</label>
+			<input type="email" id="modal-email" required>
+			<button type="submit">Salvar</button>
+			<button type="button" onclick="closeModal()">Cancelar</button>
+		</form>
+	</div>
+
+	<script>
+		let registros = [];
+
+		// Função para adicionar ou atualizar um registro
+		function addOrUpdate() {
+			const nome = document.getElementById("modal-nome").value;
+			const email = document.getElementById("modal-email").value;
+			const index = document.getElementById("modal-index").value;
+
+			if (index) { // Se index existe, atualiza o registro
+				registros[index].nome = nome;
+				registros[index].email = email;
+			} else { // Senão, adiciona um novo registro
+				registros.push({ nome, email });
+			}
+
+			read(); // Exibe os registros atualizados
+			closeModal(); // Fecha o modal
+			return false;
+		}
+
+		// Função para excluir um registro
+		function deleteRecord(index) {
+			if (confirm("Tem certeza que deseja excluir o registro?")) {
+				registros.splice(index, 1);
+				read(); // Exibe os registros atualizados
+			}
+		}
+
+		// Função para exibir os registros
+		function read() {
+			const tableBody = document.getElementById("table-body");
+			tableBody.innerHTML = "";
+
+			registros.forEach((registro, index) => {
+				const row = tableBody.insertRow();
+
+				const nomeCell = row.insertCell();
+				const emailCell = row.insertCell();
+				const actionsCell = row.insertCell();
+
+				nomeCell.innerHTML = registro.nome;
+				emailCell.innerHTML = registro.email;
+				actionsCell.innerHTML = `
+					<button type="button" onclick="openModal(${index})">Editar</button>
+					<button type="button" onclick="deleteRecord(${index})">Excluir</button>
+				`;
+			});
+		}
+		// Função para exibir o modal de adição ou edição de registro
+		function openModal(index) {
+			if (index !== undefined) { // Se index existe, preenche os campos do modal com os dados do registro
+				const registro = registros[index];
+				document.getElementById("modal-nome").value = registro.nome;
+				document.getElementById("modal-email").value = registro.email;
+				document.getElementById("modal-index").value = index;
+			} else { // Senão, limpa os campos do modal
+				document.getElementById("modal-nome").value = "";
+				document.getElementById("modal-email").value = "";
+				document.getElementById("modal-index").value = "";
+			}
+
+			document.getElementById("modal").style.display = "block"; // Exibe o modal
+		}
+
+		// Função para fechar o modal
+		function closeModal() {
+			document.getElementById("modal").style.display = "none";
+		}
+
+		// Inicializa o CRUD com alguns registros de exemplo
+		registros.push({ nome: "João", email: "joao@example.com" });
+		registros.push({ nome: "Maria", email: "maria@example.com" });
+		registros.push({ nome: "José", email: "jose@example.com" });
+
+		read(); // Exibe os registros
+
+	</script>
+</body>
+</html>
