@@ -29,13 +29,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: docker run -d -p 80:80 jivagoaffonso/devops_somativa2
       - uses: AppThreat/sast-scan-action@master
         with:
-          entrypoint: nginx
-          cmd: -g daemon off;
-          image: jivagoaffonso/devops_somativa2
-          output: result.json
+          type: "html"
+          entrypoint: "nginx"
+          cmd: "-g 'daemon off';"
+          image: "jivagoaffonso/devops_somativa2"
+          output: "result.json"
 
   deploy-job:
     runs-on: ubuntu-latest
