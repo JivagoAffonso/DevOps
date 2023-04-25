@@ -20,10 +20,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       
       - name: Pull Docker image
-        run: docker pull jivagoaffonso/somativa2
+        run: docker pull jivagoaffonso/devops_somativa2
 
       - name: Run Docker container
-        run: docker run -d -p 80:80 jivagoaffonso/somativa2
+        run: docker run -d -p 80:80 jivagoaffonso/devops_somativa2
 
   test-job:
     runs-on: ubuntu-latest
