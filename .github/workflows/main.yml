@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: python3 teste.py
+      - run: index.html
       - uses: AppThreat/sast-scan-action@master
         with:
           entrypoint: nginx
