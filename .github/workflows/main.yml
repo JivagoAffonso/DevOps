@@ -34,7 +34,7 @@ jobs:
         with:
           entrypoint: nginx
           cmd: -g daemon off;
-          image: my-image
+          image: jivagoaffonso/devops_somativa2
           output: result.json
 
   deploy-job:
